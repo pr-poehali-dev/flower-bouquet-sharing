@@ -55,10 +55,16 @@ const Index = () => {
   });
 
   const [selectedFilter, setSelectedFilter] = useState<string>('Все');
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const filteredBouquets = selectedFilter === 'Все' 
-    ? bouquets 
-    : bouquets.filter(b => b.type === selectedFilter);
+  const filteredBouquets = bouquets
+    .filter(b => selectedFilter === 'Все' || b.type === selectedFilter)
+    .filter(b => {
+      const query = searchQuery.toLowerCase();
+      return b.title.toLowerCase().includes(query) || 
+             b.composition.toLowerCase().includes(query) ||
+             b.description.toLowerCase().includes(query);
+    });
 
   const bouquetTypes = [
     { name: 'Романтический', icon: 'Heart', description: 'Нежные композиции для особых моментов' },
@@ -286,6 +292,26 @@ const Index = () => {
             Галерея букетов
           </h3>
           
+          <div className="max-w-xl mx-auto mb-8 animate-fade-in">
+            <div className="relative">
+              <Icon name="Search" size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                placeholder="Поиск по названию, составу или описанию..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 h-12 text-base"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <Icon name="X" size={18} />
+                </button>
+              )}
+            </div>
+          </div>
+          
           <div className="flex flex-wrap justify-center gap-3 mb-12 animate-fade-in">
             <Button 
               variant={selectedFilter === 'Все' ? 'default' : 'outline'}
@@ -311,7 +337,9 @@ const Index = () => {
           {filteredBouquets.length === 0 ? (
             <div className="text-center py-12">
               <Icon name="Flower" size={48} className="mx-auto text-muted-foreground mb-4" />
-              <p className="text-xl text-muted-foreground">Букеты этого типа пока не добавлены</p>
+              <p className="text-xl text-muted-foreground">
+                {searchQuery ? 'Ничего не найдено. Попробуйте изменить запрос' : 'Букеты этого типа пока не добавлены'}
+              </p>
             </div>
           ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
