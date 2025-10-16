@@ -331,73 +331,80 @@ const Index = () => {
                   <span className="hidden sm:inline">Войти</span>
                 </Button>
               )}
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button className="gap-2" onClick={() => !user && setAuthOpen(true)}>
-                    <Icon name="Plus" size={18} />
-                    <span className="hidden sm:inline">Добавить букет</span>
-                  </Button>
-                </DialogTrigger>
-              <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-                <DialogHeader>
-                  <DialogTitle className="font-display text-2xl">Добавить новый букет</DialogTitle>
-                  <DialogDescription>
-                    Заполните информацию о вашей композиции
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4 py-4">
-                  <div>
-                    <Label htmlFor="title">Название букета</Label>
-                    <Input
-                      id="title"
-                      placeholder="Например: Летний бриз"
-                      value={newBouquet.title}
-                      onChange={(e) => setNewBouquet({ ...newBouquet, title: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="description">Описание</Label>
-                    <Textarea
-                      id="description"
-                      placeholder="Краткое описание букета"
-                      value={newBouquet.description}
-                      onChange={(e) => setNewBouquet({ ...newBouquet, description: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="composition">Состав композиции</Label>
-                    <Textarea
-                      id="composition"
-                      placeholder="Перечислите цветы и количество"
-                      value={newBouquet.composition}
-                      onChange={(e) => setNewBouquet({ ...newBouquet, composition: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="type">Тип букета</Label>
-                    <Input
-                      id="type"
-                      placeholder="Например: Романтический"
-                      value={newBouquet.type}
-                      onChange={(e) => setNewBouquet({ ...newBouquet, type: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="image">URL изображения</Label>
-                    <Input
-                      id="image"
-                      placeholder="https://example.com/image.jpg"
-                      value={newBouquet.image}
-                      onChange={(e) => setNewBouquet({ ...newBouquet, image: e.target.value })}
-                    />
-                  </div>
-                  <Button onClick={handleAddBouquet} className="w-full gap-2">
-                    <Icon name="Check" size={18} />
-                    Добавить в галерею
-                  </Button>
-                </div>
-              </DialogContent>
-              </Dialog>
+              {user ? (
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button className="gap-2">
+                      <Icon name="Plus" size={18} />
+                      <span className="hidden sm:inline">Добавить букет</span>
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                      <DialogTitle className="font-display text-2xl">Добавить новый букет</DialogTitle>
+                      <DialogDescription>
+                        Заполните информацию о вашей композиции
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4 py-4">
+                      <div>
+                        <Label htmlFor="title">Название букета</Label>
+                        <Input
+                          id="title"
+                          placeholder="Например: Летний бриз"
+                          value={newBouquet.title}
+                          onChange={(e) => setNewBouquet({ ...newBouquet, title: e.target.value })}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="description">Описание</Label>
+                        <Textarea
+                          id="description"
+                          placeholder="Краткое описание букета"
+                          value={newBouquet.description}
+                          onChange={(e) => setNewBouquet({ ...newBouquet, description: e.target.value })}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="composition">Состав композиции</Label>
+                        <Textarea
+                          id="composition"
+                          placeholder="Перечислите цветы и количество"
+                          value={newBouquet.composition}
+                          onChange={(e) => setNewBouquet({ ...newBouquet, composition: e.target.value })}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="type">Тип букета</Label>
+                        <Input
+                          id="type"
+                          placeholder="Например: Романтический"
+                          value={newBouquet.type}
+                          onChange={(e) => setNewBouquet({ ...newBouquet, type: e.target.value })}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="image">URL изображения</Label>
+                        <Input
+                          id="image"
+                          placeholder="https://example.com/image.jpg"
+                          value={newBouquet.image}
+                          onChange={(e) => setNewBouquet({ ...newBouquet, image: e.target.value })}
+                        />
+                      </div>
+                      <Button onClick={handleAddBouquet} className="w-full gap-2">
+                        <Icon name="Check" size={18} />
+                        Добавить в галерею
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              ) : (
+                <Button className="gap-2" onClick={() => setAuthOpen(true)}>
+                  <Icon name="Plus" size={18} />
+                  <span className="hidden sm:inline">Добавить букет</span>
+                </Button>
+              )}
             </div>
           </div>
         </div>
