@@ -43,6 +43,78 @@ const Index = () => {
       composition: 'Розы белые - 12 шт, Эвкалипт - 7 веток, Гипсофила, Лента атласная',
       type: 'Свадебный',
       image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/5a70f04b-7f30-4964-bd72-3e74e16f512e.jpg'
+    },
+    {
+      id: 4,
+      title: 'Пионовый рассвет',
+      description: 'Нежные пионы в пастельных тонах',
+      composition: 'Пионы розовые - 9 шт, Розы кустовые - 5 шт, Эустома - 3 шт, Зелень',
+      type: 'Романтический',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/c26750b8-b79d-46c1-83d4-d6650796228e.jpg'
+    },
+    {
+      id: 5,
+      title: 'Осенний урожай',
+      description: 'Яркая осенняя композиция с хризантемами',
+      composition: 'Хризантемы желтые - 7 шт, Подсолнухи - 3 шт, Гортензия - 2 шт, Ягоды декоративные',
+      type: 'Сезонный',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/ad97c6a5-7619-4372-90de-6d0005a93fa1.jpg'
+    },
+    {
+      id: 6,
+      title: 'Деловой стиль',
+      description: 'Строгая композиция для корпоративных мероприятий',
+      composition: 'Розы белые - 10 шт, Эвкалипт - 7 веток, Антуриум - 3 шт',
+      type: 'Корпоративный',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/5a70f04b-7f30-4964-bd72-3e74e16f512e.jpg'
+    },
+    {
+      id: 7,
+      title: 'Тропический рай',
+      description: 'Экзотические цветы в ярких красках',
+      composition: 'Орхидеи - 5 шт, Антуриум - 4 шт, Протея - 2 шт, Пальмовые листья',
+      type: 'Корпоративный',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/c26750b8-b79d-46c1-83d4-d6650796228e.jpg'
+    },
+    {
+      id: 8,
+      title: 'Летняя полянка',
+      description: 'Полевые цветы в естественной композиции',
+      composition: 'Ромашки - 15 шт, Васильки - 10 шт, Колокольчики - 8 шт, Травы луговые',
+      type: 'Сезонный',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/ad97c6a5-7619-4372-90de-6d0005a93fa1.jpg'
+    },
+    {
+      id: 9,
+      title: 'Королевский бал',
+      description: 'Роскошный свадебный букет с каскадной формой',
+      composition: 'Розы белые - 20 шт, Орхидеи - 7 шт, Гортензия - 3 шт, Жемчужные нити',
+      type: 'Свадебный',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/5a70f04b-7f30-4964-bd72-3e74e16f512e.jpg'
+    },
+    {
+      id: 10,
+      title: 'Признание в любви',
+      description: 'Классический букет из красных роз',
+      composition: 'Розы красные - 25 шт, Гипсофила, Зелень декоративная, Лента атласная красная',
+      type: 'Романтический',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/c26750b8-b79d-46c1-83d4-d6650796228e.jpg'
+    },
+    {
+      id: 11,
+      title: 'Лавандовые мечты',
+      description: 'Ароматная композиция с лавандой',
+      composition: 'Лаванда - 20 веток, Эустома сиреневая - 7 шт, Розы пудровые - 5 шт, Эвкалипт',
+      type: 'Романтический',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/c26750b8-b79d-46c1-83d4-d6650796228e.jpg'
+    },
+    {
+      id: 12,
+      title: 'Зимняя сказка',
+      description: 'Новогодняя композиция с хвоей',
+      composition: 'Розы белые - 7 шт, Ветки ели - 5 шт, Хлопок - 10 шт, Шишки, Корица',
+      type: 'Сезонный',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/5a70f04b-7f30-4964-bd72-3e74e16f512e.jpg'
     }
   ]);
 
