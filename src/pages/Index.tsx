@@ -9,6 +9,13 @@ import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 import AuthDialog from '@/components/AuthDialog';
 
+interface Comment {
+  id: string;
+  author: string;
+  text: string;
+  timestamp: string;
+}
+
 interface Bouquet {
   id: number;
   title: string;
@@ -18,6 +25,7 @@ interface Bouquet {
   image: string;
   likes: number;
   author?: string;
+  comments?: Comment[];
 }
 
 interface User {
@@ -31,6 +39,8 @@ const Index = () => {
   const [user, setUser] = useState<User | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
   const [likedBouquets, setLikedBouquets] = useState<Set<number>>(new Set());
+  const [selectedBouquet, setSelectedBouquet] = useState<Bouquet | null>(null);
+  const [commentText, setCommentText] = useState('');
 
   useEffect(() => {
     const savedUser = localStorage.getItem('florabook_user');
@@ -49,9 +59,10 @@ const Index = () => {
       description: 'Элегантная композиция из розовых роз с зеленью',
       composition: 'Розы розовые - 15 шт, Эвкалипт - 5 веток, Зелень декоративная',
       type: 'Романтический',
-      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/c26750b8-b79d-46c1-83d4-d6650796228e.jpg',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/448580de-0d97-4539-a79a-6410cf6acde0.jpg',
       likes: 42,
-      author: 'Флорист Елена'
+      author: 'Флорист Елена',
+      comments: []
     },
     {
       id: 2,
@@ -59,9 +70,10 @@ const Index = () => {
       description: 'Яркая весенняя композиция с тюльпанами',
       composition: 'Тюльпаны - 10 шт, Ромашки - 7 шт, Хризантемы - 5 шт',
       type: 'Сезонный',
-      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/ad97c6a5-7619-4372-90de-6d0005a93fa1.jpg',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/b53ecf5e-2cbb-40dc-94e0-2f03dfc341af.jpg',
       likes: 38,
-      author: 'Студия цветов'
+      author: 'Студия цветов',
+      comments: []
     },
     {
       id: 3,
@@ -69,9 +81,10 @@ const Index = () => {
       description: 'Роскошный свадебный букет в белых тонах',
       composition: 'Розы белые - 12 шт, Эвкалипт - 7 веток, Гипсофила, Лента атласная',
       type: 'Свадебный',
-      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/5a70f04b-7f30-4964-bd72-3e74e16f512e.jpg',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/b381edf6-6889-469b-8251-8c69a10fdd57.jpg',
       likes: 67,
-      author: 'Флорист Елена'
+      author: 'Флорист Елена',
+      comments: []
     },
     {
       id: 4,
@@ -79,9 +92,10 @@ const Index = () => {
       description: 'Нежные пионы в пастельных тонах',
       composition: 'Пионы розовые - 9 шт, Розы кустовые - 5 шт, Эустома - 3 шт, Зелень',
       type: 'Романтический',
-      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/c26750b8-b79d-46c1-83d4-d6650796228e.jpg',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/b53ecf5e-2cbb-40dc-94e0-2f03dfc341af.jpg',
       likes: 51,
-      author: 'Мария Петрова'
+      author: 'Мария Петрова',
+      comments: []
     },
     {
       id: 5,
@@ -89,9 +103,10 @@ const Index = () => {
       description: 'Яркая осенняя композиция с хризантемами',
       composition: 'Хризантемы желтые - 7 шт, Подсолнухи - 3 шт, Гортензия - 2 шт, Ягоды декоративные',
       type: 'Сезонный',
-      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/ad97c6a5-7619-4372-90de-6d0005a93fa1.jpg',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/7aff3f99-e0b3-4847-a4a5-e14e775c68e1.jpg',
       likes: 58,
-      author: 'Флорист Анна'
+      author: 'Флорист Анна',
+      comments: []
     },
     {
       id: 6,
@@ -99,9 +114,10 @@ const Index = () => {
       description: 'Строгая композиция для корпоративных мероприятий',
       composition: 'Розы белые - 10 шт, Эвкалипт - 7 веток, Антуриум - 3 шт',
       type: 'Корпоративный',
-      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/5a70f04b-7f30-4964-bd72-3e74e16f512e.jpg',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/b381edf6-6889-469b-8251-8c69a10fdd57.jpg',
       likes: 45,
-      author: 'Студия Флора'
+      author: 'Студия Флора',
+      comments: []
     },
     {
       id: 7,
@@ -109,9 +125,10 @@ const Index = () => {
       description: 'Экзотические цветы в ярких красках',
       composition: 'Орхидеи - 5 шт, Антуриум - 4 шт, Протея - 2 шт, Пальмовые листья',
       type: 'Корпоративный',
-      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/c26750b8-b79d-46c1-83d4-d6650796228e.jpg',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/ce8116cf-0244-4dad-884f-296bcb729fba.jpg',
       likes: 72,
-      author: 'Ольга Соколова'
+      author: 'Ольга Соколова',
+      comments: []
     },
     {
       id: 8,
@@ -119,9 +136,10 @@ const Index = () => {
       description: 'Полевые цветы в естественной композиции',
       composition: 'Ромашки - 15 шт, Васильки - 10 шт, Колокольчики - 8 шт, Травы луговые',
       type: 'Сезонный',
-      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/ad97c6a5-7619-4372-90de-6d0005a93fa1.jpg',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/7aff3f99-e0b3-4847-a4a5-e14e775c68e1.jpg',
       likes: 34,
-      author: 'Цветочная мастерская'
+      author: 'Цветочная мастерская',
+      comments: []
     },
     {
       id: 9,
@@ -129,9 +147,10 @@ const Index = () => {
       description: 'Роскошный свадебный букет с каскадной формой',
       composition: 'Розы белые - 20 шт, Орхидеи - 7 шт, Гортензия - 3 шт, Жемчужные нити',
       type: 'Свадебный',
-      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/5a70f04b-7f30-4964-bd72-3e74e16f512e.jpg',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/b381edf6-6889-469b-8251-8c69a10fdd57.jpg',
       likes: 79,
-      author: 'Флорист Виктория'
+      author: 'Флорист Виктория',
+      comments: []
     },
     {
       id: 10,
@@ -139,9 +158,10 @@ const Index = () => {
       description: 'Классический букет из красных роз',
       composition: 'Розы красные - 25 шт, Гипсофила, Зелень декоративная, Лента атласная красная',
       type: 'Романтический',
-      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/c26750b8-b79d-46c1-83d4-d6650796228e.jpg',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/448580de-0d97-4539-a79a-6410cf6acde0.jpg',
       likes: 63,
-      author: 'Студия Лепесток'
+      author: 'Студия Лепесток',
+      comments: []
     },
     {
       id: 11,
@@ -149,9 +169,10 @@ const Index = () => {
       description: 'Ароматная композиция с лавандой',
       composition: 'Лаванда - 20 веток, Эустома сиреневая - 7 шт, Розы пудровые - 5 шт, Эвкалипт',
       type: 'Романтический',
-      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/c26750b8-b79d-46c1-83d4-d6650796228e.jpg',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/acb0e61c-0abc-4505-9e36-61e2f74f1d2c.jpg',
       likes: 41,
-      author: 'Наталья Иванова'
+      author: 'Наталья Иванова',
+      comments: []
     },
     {
       id: 12,
@@ -159,9 +180,10 @@ const Index = () => {
       description: 'Новогодняя композиция с хвоей',
       composition: 'Розы белые - 7 шт, Ветки ели - 5 шт, Хлопок - 10 шт, Шишки, Корица',
       type: 'Сезонный',
-      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/5a70f04b-7f30-4964-bd72-3e74e16f512e.jpg',
+      image: 'https://cdn.poehali.dev/projects/01ee1f74-fb6a-42a7-af8c-1c8c8c921479/files/b381edf6-6889-469b-8251-8c69a10fdd57.jpg',
       likes: 52,
-      author: 'Флорист Дарья'
+      author: 'Флорист Дарья',
+      comments: []
     }
   ]);
 
@@ -254,6 +276,51 @@ const Index = () => {
     toast({
       title: 'Вы вышли',
       description: 'До скорой встречи!'
+    });
+  };
+
+  const handleAddComment = () => {
+    if (!user) {
+      toast({
+        title: 'Войдите в аккаунт',
+        description: 'Чтобы оставлять комментарии, войдите в аккаунт',
+        variant: 'destructive'
+      });
+      setAuthOpen(true);
+      return;
+    }
+
+    if (!commentText.trim() || !selectedBouquet) return;
+
+    const newComment: Comment = {
+      id: Date.now().toString(),
+      author: user.name,
+      text: commentText,
+      timestamp: new Date().toLocaleString('ru-RU', { 
+        day: '2-digit', 
+        month: '2-digit', 
+        year: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      })
+    };
+
+    setBouquets(bouquets.map(b => 
+      b.id === selectedBouquet.id 
+        ? { ...b, comments: [...(b.comments || []), newComment] }
+        : b
+    ));
+
+    const updatedBouquet = {
+      ...selectedBouquet,
+      comments: [...(selectedBouquet.comments || []), newComment]
+    };
+    setSelectedBouquet(updatedBouquet);
+    setCommentText('');
+
+    toast({
+      title: 'Комментарий добавлен!',
+      description: 'Ваш отзыв опубликован'
     });
   };
 
@@ -604,6 +671,16 @@ const Index = () => {
                           <Button
                             variant="ghost"
                             size="sm"
+                            onClick={() => setSelectedBouquet(bouquet)}
+                            className="gap-1.5 h-9 px-3"
+                          >
+                            <Icon name="MessageCircle" size={18} />
+                            <span className="text-sm font-medium">{bouquet.comments?.length || 0}</span>
+                          </Button>
+                          
+                          <Button
+                            variant="ghost"
+                            size="sm"
                             onClick={() => handleShare(bouquet)}
                             className="gap-1.5 h-9 px-3"
                           >
@@ -627,6 +704,72 @@ const Index = () => {
           )}
         </div>
       </section>
+
+      <Dialog open={!!selectedBouquet} onOpenChange={() => setSelectedBouquet(null)}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          {selectedBouquet && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="font-display text-2xl">{selectedBouquet.title}</DialogTitle>
+                <DialogDescription>{selectedBouquet.description}</DialogDescription>
+              </DialogHeader>
+              
+              <div className="space-y-4">
+                {selectedBouquet.image && (
+                  <img 
+                    src={selectedBouquet.image} 
+                    alt={selectedBouquet.title}
+                    className="w-full aspect-video object-cover rounded-lg"
+                  />
+                )}
+                
+                <div className="border-t pt-4">
+                  <h3 className="font-semibold mb-3 flex items-center gap-2">
+                    <Icon name="MessageCircle" size={20} />
+                    Комментарии ({selectedBouquet.comments?.length || 0})
+                  </h3>
+                  
+                  <div className="space-y-3 mb-4 max-h-60 overflow-y-auto">
+                    {selectedBouquet.comments && selectedBouquet.comments.length > 0 ? (
+                      selectedBouquet.comments.map((comment) => (
+                        <div key={comment.id} className="bg-muted/50 p-3 rounded-lg">
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="font-medium text-sm">{comment.author}</span>
+                            <span className="text-xs text-muted-foreground">{comment.timestamp}</span>
+                          </div>
+                          <p className="text-sm">{comment.text}</p>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-sm text-muted-foreground text-center py-4">
+                        Пока нет комментариев. Будьте первым!
+                      </p>
+                    )}
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Textarea
+                      placeholder={user ? "Напишите комментарий..." : "Войдите, чтобы оставить комментарий"}
+                      value={commentText}
+                      onChange={(e) => setCommentText(e.target.value)}
+                      disabled={!user}
+                      rows={3}
+                    />
+                    <Button 
+                      onClick={handleAddComment} 
+                      disabled={!user || !commentText.trim()}
+                      className="w-full"
+                    >
+                      <Icon name="Send" size={16} className="mr-2" />
+                      Отправить комментарий
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
 
       <section id="types" className="py-16 px-4">
         <div className="container mx-auto">
