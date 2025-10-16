@@ -54,6 +54,12 @@ const Index = () => {
     image: ''
   });
 
+  const [selectedFilter, setSelectedFilter] = useState<string>('Все');
+
+  const filteredBouquets = selectedFilter === 'Все' 
+    ? bouquets 
+    : bouquets.filter(b => b.type === selectedFilter);
+
   const bouquetTypes = [
     { name: 'Романтический', icon: 'Heart', description: 'Нежные композиции для особых моментов' },
     { name: 'Свадебный', icon: 'Sparkles', description: 'Роскошные букеты для торжества' },
@@ -276,11 +282,40 @@ const Index = () => {
 
       <section id="gallery" className="py-16 px-4 bg-white/50">
         <div className="container mx-auto">
-          <h3 className="text-4xl font-display font-bold text-center mb-12">
+          <h3 className="text-4xl font-display font-bold text-center mb-8">
             Галерея букетов
           </h3>
+          
+          <div className="flex flex-wrap justify-center gap-3 mb-12 animate-fade-in">
+            <Button 
+              variant={selectedFilter === 'Все' ? 'default' : 'outline'}
+              onClick={() => setSelectedFilter('Все')}
+              className="gap-2"
+            >
+              <Icon name="LayoutGrid" size={16} />
+              Все
+            </Button>
+            {bouquetTypes.map((type) => (
+              <Button
+                key={type.name}
+                variant={selectedFilter === type.name ? 'default' : 'outline'}
+                onClick={() => setSelectedFilter(type.name)}
+                className="gap-2"
+              >
+                <Icon name={type.icon as any} size={16} />
+                {type.name}
+              </Button>
+            ))}
+          </div>
+
+          {filteredBouquets.length === 0 ? (
+            <div className="text-center py-12">
+              <Icon name="Flower" size={48} className="mx-auto text-muted-foreground mb-4" />
+              <p className="text-xl text-muted-foreground">Букеты этого типа пока не добавлены</p>
+            </div>
+          ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {bouquets.map((bouquet) => (
+            {filteredBouquets.map((bouquet) => (
               <Card key={bouquet.id} className="overflow-hidden hover:shadow-xl transition-shadow animate-scale-in group">
                 {bouquet.image && (
                   <div className="aspect-square overflow-hidden">
@@ -313,6 +348,7 @@ const Index = () => {
               </Card>
             ))}
           </div>
+          )}
         </div>
       </section>
 
